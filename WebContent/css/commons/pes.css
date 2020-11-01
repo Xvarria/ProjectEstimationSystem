@@ -1,0 +1,29 @@
+.upperSpace{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.formRigthAlign{
+  text-align:right;
+}
+
+.formRow{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.intHiddenBtn{
+	display: none 
+}
+
+.visibleBtn{
+	display: inline;
+}
+
+input[readonly]{
+    background-color:#D6D8DD;
+}
+
+div.hidden{
+	display: none;
+}
