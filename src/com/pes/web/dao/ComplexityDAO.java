@@ -13,24 +13,24 @@ public interface ComplexityDAO {
 	
 	/**
 	 * Creates a new complexity record
-	 * @param Complexity
+	 * @param complexity
 	 * @throws PesWebException
 	 */
-	public void save(Complexity Complexity) throws PesWebException;
+	public void save(Complexity complexity) throws PesWebException;
 	
 	/**
 	 * Updates the complexity record on the database
-	 * @param Complexity
+	 * @param complexity
 	 * @throws PesWebException
 	 */
-	public void update(Complexity Complexity) throws PesWebException;
+	public void update(Complexity complexity) throws PesWebException;
 	
 	/**
 	 * Delete a complexity record
-	 * @param Complexity
+	 * @param complexity
 	 * @throws PesWebException
 	 */
-	public void delete(Complexity Complexity) throws PesWebException;
+	public void delete(Complexity complexity) throws PesWebException;
 	
 	/**
 	 * Get Complexity by Id
@@ -44,7 +44,7 @@ public interface ComplexityDAO {
 	 * @return
 	 * @throws PesWebException
 	 */
-	public Complexity getComplexityById(int ComplexityId) throws PesWebException;
+	public Complexity getComplexityById(int complexityId) throws PesWebException;
 	
 	/**
 	 * Get the complexity list form database
