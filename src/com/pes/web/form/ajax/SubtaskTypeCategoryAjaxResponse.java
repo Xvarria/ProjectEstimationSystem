@@ -3,7 +3,7 @@ package com.pes.web.form.ajax;
 import com.pes.web.model.SubtaskTypeCategory;
 import com.pes.web.model.constant.ResponseStatus;
 
-public class SubtasktypeCategoryAjaxResponse {
+public class SubtaskTypeCategoryAjaxResponse {
 	
 	private ResponseStatus responseStatus;
 	private String errorMessage;

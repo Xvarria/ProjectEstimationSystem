@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pes.web.bo.ComplexityBO;
+import com.pes.web.bo.SubtaskTypeBO;
 import com.pes.web.bo.SubtaskTypeCategoryBO;
 import com.pes.web.form.ajax.ComplexityAjaxResponse;
-import com.pes.web.form.ajax.SubtasktypeCategoryAjaxResponse;
+import com.pes.web.form.ajax.SubtaskTypeAjaxResponse;
+import com.pes.web.form.ajax.SubtaskTypeCategoryAjaxResponse;
 import com.pes.web.model.Complexity;
+import com.pes.web.model.SubtaskType;
 import com.pes.web.model.SubtaskTypeCategory;
 import com.pes.web.model.constant.ResponseStatus;
 import com.pes.web.model.exception.PesWebException;
@@ -28,6 +31,9 @@ public class AjaxController extends BasicController{
 		
 	@Autowired
 	private SubtaskTypeCategoryBO subtaskTypeCategoryBO;
+	
+	@Autowired
+	private SubtaskTypeBO subtaskTypeBo;
 	
 	final static Logger log = Logger.getLogger(AjaxController.class);
 	
@@ -102,7 +108,7 @@ public class AjaxController extends BasicController{
 	public @ResponseBody String ajaxSubtaskTypeCategoryList(@RequestParam String subtaskTypeCategoryIdStr) throws PesWebException{
 		log.debug("Ajax method to get SubtaskTypeCategory");
 		ObjectMapper mapper = new ObjectMapper();
-		SubtasktypeCategoryAjaxResponse response = new SubtasktypeCategoryAjaxResponse();
+		SubtaskTypeCategoryAjaxResponse response = new SubtaskTypeCategoryAjaxResponse();
 		response.setResponseStatus(ResponseStatus.SUCCESS);
 		try {
 			int numericValue = 0;
@@ -133,4 +139,56 @@ public class AjaxController extends BasicController{
 		}
 	}
 	
+	@RequestMapping("ajax/getSubtaskTypeList")
+	public @ResponseBody String ajaxSubtaskTypeList() throws PesWebException{
+		log.debug("Ajax method to get SubtaskType");
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			Collection<SubtaskType> subtaskTypeList = this.subtaskTypeBo.listSubtaskType();
+			return mapper.writeValueAsString(subtaskTypeList);
+		} catch (PesWebException e) {
+			log.error("Error getting the subtaskType List", e);
+			throw e;
+		} catch (JsonProcessingException e) {
+			log.error("Error on ajax call to get the subtaskType", e);
+			throw new PesWebException(e);
+		}
+	}
+
+	@RequestMapping("ajax/getSubtaskTypeById")
+	public @ResponseBody String ajaxSubtaskTypeList(@RequestParam String subtaskTypeIdStr) throws PesWebException{
+		log.debug("Ajax method to get SubtaskType");
+		ObjectMapper mapper = new ObjectMapper();
+		SubtaskTypeAjaxResponse response = new SubtaskTypeAjaxResponse();
+		response.setResponseStatus(ResponseStatus.SUCCESS);
+		try {
+			int numericValue = 0;
+			SubtaskType subtaskType = new SubtaskType();
+			try {
+				numericValue = Integer.parseInt(subtaskTypeIdStr);
+				subtaskType.setSubtaskTypeId(numericValue);
+			} catch (Exception e) {
+				String errorMessage = this.propertyMessageBO.getMessageFromProperties("subtaskType.form.error.subtaskTypeid-nan", "Error");
+				response.setResponseStatus(ResponseStatus.ERROR);
+				response.setErrorMessage(errorMessage);
+			}
+			
+			if (ResponseStatus.SUCCESS.equals(response.getResponseStatus())) {
+				try {
+					subtaskType = this.subtaskTypeBo.getSubtaskTypeById(numericValue);
+					response.setSubtaskType(subtaskType);
+				} catch (Exception e) {
+					String errorMessage = this.propertyMessageBO.getMessageFromProperties("subtaskType.form.error.subtaskType-not-exist", "Error");
+					response.setResponseStatus(ResponseStatus.ERROR);
+					response.setErrorMessage(errorMessage);					
+				}				
+			}
+			return mapper.writeValueAsString(response);
+		} catch (JsonProcessingException e) {
+			log.error("Error on ajax call to get the subtaskType", e);
+			throw new PesWebException(e);
+		}
+	}
+
+
 }

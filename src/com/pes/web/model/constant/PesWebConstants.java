@@ -33,5 +33,19 @@ public final class PesWebConstants {
 	public final static String SUBTASK_TYPE_CATEGORY_SUCCESS_CREATE = "subtaskTypeCategory.success.create";
 	public final static String SUBTASK_TYPE_CATEGORY_SUCCESS_UPDATE = "subtaskTypeCategory.success.update";
 	
+	public static final String VIEW_SUBTASK_TYPE_LIST = "subtaskTypeList";
+	
+	public final static String SUBTASK_TYPE_ERROR_PARAM = "subtaskType.error.param";
+	public final static String SUBTASK_TYPE_ERROR_NOT_FOUND = "subtaskType.error.notFound";
+	public final static String SUBTASK_TYPE_ERROR_GET = "subtaskType.error.get";
+	public final static String SUBTASK_TYPE_ERROR_MISSING = "subtaskType.error.missing";
+	public final static String SUBTASK_TYPE_ERROR_DELETE = "subtaskType.error.delete";
+	public final static String SUBTASK_TYPE_ERROR_CREATE = "subtaskType.error.create";
+	public final static String SUBTASK_TYPE_ERROR_UPDATE = "subtaskType.error.update";
+	public final static String SUBTASK_TYPE_SUCCESS_DELETE = "subtaskType.success.delete";
+	public final static String SUBTASK_TYPE_SUCCESS_CREATE = "subtaskType.success.create";
+	public final static String SUBTASK_TYPE_SUCCESS_UPDATE = "subtaskType.success.update";
+
+	
 	private PesWebConstants(){};
 }
