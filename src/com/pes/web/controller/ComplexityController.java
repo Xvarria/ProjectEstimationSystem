@@ -39,17 +39,17 @@ public class ComplexityController extends BasicController {
 		
 	@RequestMapping(value="/**/web/listComplexity.do", method = RequestMethod.GET)
 	public ModelAndView listComplexityGet(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("command") ComplexityForm command) throws Exception {
-		log.info("### START listarComplexity.do ###");
+		log.info("### START listComplexity.do ###");
 		ModelAndView listModelView = this.nextModelView(VIEW_COMPLEXITY_LIST, command, FormAction.LIST);
-		log.info("### END listarComplexity.do ###");
+		log.info("### END listComplexity.do ###");
 		return listModelView;
 	}
 	
 	@RequestMapping(value="/**/web/listComplexity.do", method = RequestMethod.POST)
 	public String listComplexityPost(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("command") ComplexityForm command, BindingResult result) throws Exception {
-		log.info("### START eliminarComplexity.do POST###");
+		log.info("### START listComplexity.do POST###");
 		String nextView = this.postMethodProcess(command, result);
-		log.info("### END eliminarComplexity.do POST###");
+		log.info("### END listComplexity.do POST###");
 		return nextView;
 	}
 	

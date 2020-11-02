@@ -9,6 +9,7 @@ public class SubtaskTypeForm extends BaseForm {
 	private String description;
 	private String calculation;
 	private int subtaskCategoryTypeId;
+	private String reference;
 	
 	private SubtaskType validatedSubtaskType;
 	
@@ -17,6 +18,7 @@ public class SubtaskTypeForm extends BaseForm {
 		this.description = "";
 		this.calculation = "";
 		this.subtaskCategoryTypeId = 0;
+		this.reference = "";
 	}
 	
 	/**
@@ -88,5 +90,21 @@ public class SubtaskTypeForm extends BaseForm {
 	public void setValidatedSubtaskType(SubtaskType validatedSubtaskType) {
 		this.validatedSubtaskType = validatedSubtaskType;
 	}
+
+	/**
+	 * @return the reference
+	 */
+	public String getReference() {
+		return reference;
+	}
+
+	/**
+	 * @param reference the reference to set
+	 */
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+	
+	
 }
 

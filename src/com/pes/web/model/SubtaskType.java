@@ -17,6 +17,7 @@ public class SubtaskType {
 	private int subtaskTypeCategoryId;
 	private String description;
 	private String calculation;
+	private String reference;
 	private SubtaskTypeCategory subtaskTypeCategory;
 	
 	/**
@@ -83,6 +84,21 @@ public class SubtaskType {
 	}
 	
 	/**
+	 * @return the reference
+	 */
+	@Column(name = "REFERENCE")
+	public String getReference() {
+		return reference;
+	}
+
+	/**
+	 * @param reference the reference to set
+	 */
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	/**
 	 * @return the subtaskTypeCategory
 	 */
     @ManyToOne
@@ -96,5 +112,86 @@ public class SubtaskType {
 	 */
 	public void setSubtaskTypeCategory(SubtaskTypeCategory subtaskTypeCategory) {
 		this.subtaskTypeCategory = subtaskTypeCategory;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((calculation == null) ? 0 : calculation.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((reference == null) ? 0 : reference.hashCode());
+		result = prime * result + ((subtaskTypeCategory == null) ? 0 : subtaskTypeCategory.hashCode());
+		result = prime * result + subtaskTypeCategoryId;
+		result = prime * result + subtaskTypeId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		SubtaskType other = (SubtaskType) obj;
+		if (calculation == null) {
+			if (other.calculation != null) {
+				return false;
+			}
+		} else if (!calculation.equals(other.calculation)) {
+			return false;
+		}
+		if (description == null) {
+			if (other.description != null) {
+				return false;
+			}
+		} else if (!description.equals(other.description)) {
+			return false;
+		}
+		if (reference == null) {
+			if (other.reference != null) {
+				return false;
+			}
+		} else if (!reference.equals(other.reference)) {
+			return false;
+		}
+		if (subtaskTypeCategory == null) {
+			if (other.subtaskTypeCategory != null) {
+				return false;
+			}
+		} else if (!subtaskTypeCategory.equals(other.subtaskTypeCategory)) {
+			return false;
+		}
+		if (subtaskTypeCategoryId != other.subtaskTypeCategoryId) {
+			return false;
+		}
+		if (subtaskTypeId != other.subtaskTypeId) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SubtaskType [subtaskTypeId=");
+		builder.append(subtaskTypeId);
+		builder.append(", subtaskTypeCategoryId=");
+		builder.append(subtaskTypeCategoryId);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", calculation=");
+		builder.append(calculation);
+		builder.append(", reference=");
+		builder.append(reference);
+		builder.append(", subtaskTypeCategory=");
+		builder.append(subtaskTypeCategory);
+		builder.append("]");
+		return builder.toString();
 	}
 }

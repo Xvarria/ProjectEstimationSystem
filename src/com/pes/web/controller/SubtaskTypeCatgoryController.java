@@ -39,17 +39,17 @@ public class SubtaskTypeCatgoryController extends BasicController {
 		
 	@RequestMapping(value="/**/web/listSubtaskTypeCategory.do", method = RequestMethod.GET)
 	public ModelAndView listSubtaskTypeCategoryGet(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("command") SubtaskTypeCategoryForm command) throws Exception {
-		log.info("### START listarSubtaskTypeCategory.do ###");
+		log.info("### START listSubtaskTypeCategory.do ###");
 		ModelAndView listModelView = this.nextModelView(VIEW_SUBTASK_TYPE_CATEGORY_LIST, command, FormAction.LIST);
-		log.info("### END listarSubtaskTypeCategory.do ###");
+		log.info("### END listSubtaskTypeCategory.do ###");
 		return listModelView;
 	}
 	
 	@RequestMapping(value="/**/web/listSubtaskTypeCategory.do", method = RequestMethod.POST)
 	public String listSubtaskTypeCategoryPost(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("command") SubtaskTypeCategoryForm command, BindingResult result) throws Exception {
-		log.info("### START eliminarSubtaskTypeCategory.do POST###");
+		log.info("### START listSubtaskTypeCategory.do POST###");
 		String nextView = this.postMethodProcess(command, result);
-		log.info("### END eliminarSubtaskTypeCategory.do POST###");
+		log.info("### END listSubtaskTypeCategory.do POST###");
 		return nextView;
 	}
 	

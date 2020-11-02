@@ -8,7 +8,7 @@ function getOrigen(){
 	return origen +  $('#contextPath').val();
 }
 
-
+/* TODO review this methods names */
 function mostrarErrores(){
 	var mensajeAlert = "";
 	var contador = 0;
@@ -68,7 +68,7 @@ function confirmarYVolvaerALista(){
 }
 
 function volverALista(){
-	accionMetodo('listar','GET');
+	accionMetodo('list','GET');
 }
 
 function obtenerGrupoAccion(form){

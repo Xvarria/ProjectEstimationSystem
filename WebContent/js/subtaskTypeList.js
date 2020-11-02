@@ -49,11 +49,13 @@ function refreshSubtaskTypeTable(data) {
 			}, {
 				data : 'calculation'
 			}, {
+				data : 'reference'
+			}, {
 				data : null,
 				orderable : false
 			}],
 			columnDefs : [ {
-				targets : 4,
+				targets : 5,
 				className : 'center',
 				orderable : 'false',
 				render : function(data, type, full, meta) {
@@ -95,6 +97,7 @@ function updateSubtaskTypeLoad(subtaskTypeId){
 				refreshSubtaskCategoryId()
 				$('#description').val(subtaskType.description);
 				$('#calculation').val(subtaskType.calculation);
+				$('#reference').val(subtaskType.reference);
 				$('#create-button').addClass("hidden");
 				$('#update-button').removeClass("hidden");
 			}else{
@@ -152,4 +155,5 @@ function cleanFields(){
 	$('#select-subtaskCategoryId').val(0);
 	$('#description').val("");
 	$('#calculation').val("");
+	$('#reference').val("");
 }

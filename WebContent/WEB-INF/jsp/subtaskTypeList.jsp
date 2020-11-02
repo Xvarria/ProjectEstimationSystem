@@ -28,6 +28,7 @@
 								<th><fmt:message key="subtaskType.category"/></th>
 								<th><fmt:message key="subtaskType.description"/></th>
 								<th><fmt:message key="subtaskType.calculation"/></th>
+								<th><fmt:message key="subtaskType.reference"/></th>
 								<th><fmt:message key="header.detail"/></th>
 							</tr>
 						</thead>
@@ -65,6 +66,10 @@
 					Calculation:&nbsp; <input id="calculation" name="calculation" value="${command.calculation}"/>
 					<br><br>
 					</div>
+					<div class="col-md-10 offset-md-1">
+					Reference:&nbsp; <input id="reference" name="reference" value="${command.reference}"/>
+					<br><br>
+					</div>					
 					<div id="create-button" class="col-md-10 offset-md-1">
 						<button class="sucess" type="button" onclick="javascript:createSubtaskTypeSubmit()">Create</button>
 						<button class="warning" type="button" onclick="javascript:cancelCreateLoad()">Cancel</button>					

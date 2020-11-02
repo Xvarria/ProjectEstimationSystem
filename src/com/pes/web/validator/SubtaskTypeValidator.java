@@ -61,6 +61,7 @@ public class SubtaskTypeValidator implements Validator {
 					errors.rejectValue("subtaskTypeCategoryId", "subtaskType.form.error.invalid-category");
 				}
 				subtaskType.setCalculation(command.getCalculation());
+				subtaskType.setReference(command.getReference());
 				
 			}		
 			command.setValidatedSubtaskType(subtaskType);	
