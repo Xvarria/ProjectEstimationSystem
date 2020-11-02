@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
 	initDatatableOnList();
 	$('#create-button').removeClass("hidden");

@@ -47,5 +47,13 @@ public interface SubtaskTypeBO {
 	 * @throws PesWebException
 	 */
 	public List<SubtaskType> listSubtaskType() throws PesWebException;
+	
+	/**
+	 * Get Subtask types for specific Category
+	 * @param subtaskTypeCategoryId
+	 * @return
+	 * @throws PesWebException
+	 */
+	public List<SubtaskType> listSubtaskTypeByCategoryId(int subtaskTypeCategoryId) throws PesWebException;	
 }
 

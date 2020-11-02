@@ -25,7 +25,9 @@ import com.pes.web.model.exception.PesWebException;
 public class SubtaskTypeDAOImpl extends AbstractDAO implements SubtaskTypeDAO {
 	
 	private static final String QUERY_SELECT = "SELECT c FROM SubtaskType c WHERE c.subtaskTypeId = :subtaskTypeId";
+	private static final String QUERY_SELECT_BY_CATEGORY_ID = "SELECT c FROM SubtaskType c WHERE c.subtaskTypeCategory.subtaskTypeCategoryId = :subtaskTypeCategoryId";
 	private static final String PARAMETER_NAME_SUBTASK_TYPE_ID = "subtaskTypeId";
+	private static final String PARAMETER_NAME_SUBTASK_TYPE_CATEGORY_ID = "subtaskTypeCategoryId";
 
 	/**
 	 * 
@@ -64,6 +66,16 @@ public class SubtaskTypeDAOImpl extends AbstractDAO implements SubtaskTypeDAO {
 		query.setParameter(PARAMETER_NAME_SUBTASK_TYPE_ID, subtaskTypeId);
 		SubtaskType subtaskType = query.getSingleResult();
 		return subtaskType;
+	}
+
+	
+	
+	@Override
+	public List<SubtaskType> listSubtaskTypeByCategoryId(int subtaskTypeCategoryId) throws PesWebException {
+		TypedQuery<SubtaskType> query = entityManager.createQuery(QUERY_SELECT_BY_CATEGORY_ID, SubtaskType.class);
+		query.setParameter(PARAMETER_NAME_SUBTASK_TYPE_CATEGORY_ID, subtaskTypeCategoryId);
+		List<SubtaskType> subtaskTypeList = query.getResultList();
+		return subtaskTypeList;
 	}
 
 	/**

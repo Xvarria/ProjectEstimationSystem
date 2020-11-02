@@ -52,5 +52,13 @@ public interface SubtaskTypeDAO {
 	 * @throws PesWebException
 	 */
 	public List<SubtaskType> listSubtaskType() throws PesWebException;
+	
+	/**
+	 * 
+	 * @param subtaskTypeCategoryId
+	 * @return
+	 * @throws PesWebException
+	 */
+	public List<SubtaskType> listSubtaskTypeByCategoryId(int subtaskTypeCategoryId) throws PesWebException;
 }
 

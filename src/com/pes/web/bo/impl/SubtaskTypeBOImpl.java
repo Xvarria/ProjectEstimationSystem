@@ -90,5 +90,18 @@ public class SubtaskTypeBOImpl implements SubtaskTypeBO {
 	public List<SubtaskType> listSubtaskType() throws PesWebException {
 		return this.subtaskTypeDAO.listSubtaskType();
 	}
+	
+	/*
+	 * 
+	 * 
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<SubtaskType> listSubtaskTypeByCategoryId(int subtaskTypeCategoryId) throws PesWebException {
+		return subtaskTypeDAO.listSubtaskTypeByCategoryId(subtaskTypeCategoryId);
+	}
+
+	
+	
 }
 
