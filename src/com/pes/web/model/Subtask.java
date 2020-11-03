@@ -9,18 +9,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "subtask")
 public class Subtask {
 
 	private int subtaskId;
 	private int subtaskTypeId;
+	private int taskId;
 	private String description;
 	private boolean autoCalculation;
 	private String referenceMode;
 	private float time;
 	private SubtaskType subtaskType;
-	
+
+	@JsonBackReference
+	private Task task;
 	/**
 	 * @return the subtaskId
 	 */
@@ -127,6 +132,37 @@ public class Subtask {
 	 */
 	public void setSubtaskType(SubtaskType subtaskType) {
 		this.subtaskType = subtaskType;
+	}
+	
+	/**
+	 * @return the taskId
+	 */
+	@Column(name="TASK_ID", updatable = false, insertable = false)
+	public int getTaskId() {
+		return taskId;
+	}
+
+	/**
+	 * @param taskId the taskId to set
+	 */
+	public void setTaskId(int taskId) {
+		this.taskId = taskId;
+	}
+
+	/**
+	 * @return the task
+	 */
+	@ManyToOne
+	@JoinColumn(name = "TASK_ID")
+	public Task getTask() {
+		return task;
+	}
+
+	/**
+	 * @param task the task to set
+	 */
+	public void setTask(Task task) {
+		this.task = task;
 	}
 
 	@Override

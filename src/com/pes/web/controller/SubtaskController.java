@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pes.web.bo.SubtaskBO;
-import com.pes.web.bo.SubtaskTypeBO;
 import com.pes.web.bo.SubtaskTypeCategoryBO;
 import com.pes.web.form.SubtaskForm;
 import com.pes.web.model.SubtaskType;

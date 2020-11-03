@@ -13,17 +13,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pes.web.bo.ComplexityBO;
+import com.pes.web.bo.ProjectBO;
 import com.pes.web.bo.SubtaskBO;
 import com.pes.web.bo.SubtaskTypeBO;
 import com.pes.web.bo.SubtaskTypeCategoryBO;
+import com.pes.web.bo.TaskBO;
 import com.pes.web.form.ajax.ComplexityAjaxResponse;
+import com.pes.web.form.ajax.ProjectAjaxResponse;
 import com.pes.web.form.ajax.SubtaskAjaxResponse;
 import com.pes.web.form.ajax.SubtaskTypeAjaxResponse;
 import com.pes.web.form.ajax.SubtaskTypeCategoryAjaxResponse;
+import com.pes.web.form.ajax.TaskAjaxResponse;
 import com.pes.web.model.Complexity;
+import com.pes.web.model.Project;
 import com.pes.web.model.Subtask;
 import com.pes.web.model.SubtaskType;
 import com.pes.web.model.SubtaskTypeCategory;
+import com.pes.web.model.Task;
 import com.pes.web.model.constant.ResponseStatus;
 import com.pes.web.model.exception.PesWebException;
 
@@ -41,6 +47,9 @@ public class AjaxController extends BasicController{
 	
 	@Autowired
 	private SubtaskBO subtaskBo;
+
+	@Autowired
+	private ProjectBO projectBo;
 	
 	final static Logger log = Logger.getLogger(AjaxController.class);
 	
@@ -266,5 +275,111 @@ public class AjaxController extends BasicController{
 			throw new PesWebException(e);
 		}
 	}
+	
+	@RequestMapping("ajax/getProjectList")
+	public @ResponseBody String ajaxProjectList() throws PesWebException{
+		log.debug("Ajax method to get Project");
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			Collection<Project> projectList = this.projectBo.listProject();
+			return mapper.writeValueAsString(projectList);
+		} catch (PesWebException e) {
+			log.error("Error getting the project List", e);
+			throw e;
+		} catch (JsonProcessingException e) {
+			log.error("Error on ajax call to get the project", e);
+			throw new PesWebException(e);
+		}
+	}
 
+	@RequestMapping("ajax/getProjectById")
+	public @ResponseBody String ajaxProjectList(@RequestParam String projectIdStr) throws PesWebException{
+		log.debug("Ajax method to get Project");
+		ObjectMapper mapper = new ObjectMapper();
+		ProjectAjaxResponse response = new ProjectAjaxResponse();
+		response.setResponseStatus(ResponseStatus.SUCCESS);
+		try {
+			int numericValue = 0;
+			Project project = new Project();
+			try {
+				numericValue = Integer.parseInt(projectIdStr);
+				project.setProjectId(numericValue);
+			} catch (Exception e) {
+				String errorMessage = this.propertyMessageBO.getMessageFromProperties("project.form.error.projectid-nan", "Error");
+				response.setResponseStatus(ResponseStatus.ERROR);
+				response.setErrorMessage(errorMessage);
+			}
+			
+			if (ResponseStatus.SUCCESS.equals(response.getResponseStatus())) {
+				try {
+					project = this.projectBo.getProjectById(numericValue);
+					response.setProject(project);
+				} catch (Exception e) {
+					String errorMessage = this.propertyMessageBO.getMessageFromProperties("project.form.error.project-not-exist", "Error");
+					response.setResponseStatus(ResponseStatus.ERROR);
+					response.setErrorMessage(errorMessage);					
+				}				
+			}
+			return mapper.writeValueAsString(response);
+		} catch (JsonProcessingException e) {
+			log.error("Error on ajax call to get the project", e);
+			throw new PesWebException(e);
+		}
+	}
+
+	@Autowired
+	private TaskBO taskBo;
+	
+	@RequestMapping("ajax/getTaskList")
+	public @ResponseBody String getTaskList(@RequestParam(name="projectIdStr") String projectIdStr) throws PesWebException{
+		log.debug("Ajax method to get Task");
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			Collection<Task> taskList = this.taskBo.listTaskByProjectId(Integer.parseInt(projectIdStr));
+			return mapper.writeValueAsString(taskList);
+		} catch (PesWebException e) {
+			log.error("Error getting the task List", e);
+			throw e;
+		} catch (JsonProcessingException e) {
+			log.error("Error on ajax call to get the task", e);
+			throw new PesWebException(e);
+		}
+	}
+
+	@RequestMapping("ajax/getTaskById")
+	public @ResponseBody String getTaskById(@RequestParam String taskIdStr) throws PesWebException{
+		log.debug("Ajax method to get Task");
+		ObjectMapper mapper = new ObjectMapper();
+		TaskAjaxResponse response = new TaskAjaxResponse();
+		response.setResponseStatus(ResponseStatus.SUCCESS);
+		try {
+			int numericValue = 0;
+			Task task = new Task();
+			try {
+				numericValue = Integer.parseInt(taskIdStr);
+				task.setTaskId(numericValue);
+			} catch (Exception e) {
+				String errorMessage = this.propertyMessageBO.getMessageFromProperties("task.form.error.taskid-nan", "Error");
+				response.setResponseStatus(ResponseStatus.ERROR);
+				response.setErrorMessage(errorMessage);
+			}
+			
+			if (ResponseStatus.SUCCESS.equals(response.getResponseStatus())) {
+				try {
+					task = this.taskBo.getTaskById(numericValue);
+					response.setTask(task);
+				} catch (Exception e) {
+					String errorMessage = this.propertyMessageBO.getMessageFromProperties("task.form.error.task-not-exist", "Error");
+					response.setResponseStatus(ResponseStatus.ERROR);
+					response.setErrorMessage(errorMessage);					
+				}				
+			}
+			return mapper.writeValueAsString(response);
+		} catch (JsonProcessingException e) {
+			log.error("Error on ajax call to get the task", e);
+			throw new PesWebException(e);
+		}
+	}
+
+	
 }

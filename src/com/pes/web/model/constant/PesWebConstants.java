@@ -58,6 +58,33 @@ public final class PesWebConstants {
 	public final static String SUBTASK_SUCCESS_DELETE = "subtask.success.delete";
 	public final static String SUBTASK_SUCCESS_CREATE = "subtask.success.create";
 	public final static String SUBTASK_SUCCESS_UPDATE = "subtask.success.update";
+	
+	public static final String VIEW_PROJECT_LIST = "projectList";
+	
+	public final static String PROJECT_ERROR_PARAM = "project.error.param";
+	public final static String PROJECT_ERROR_NOT_FOUND = "project.error.notFound";
+	public final static String PROJECT_ERROR_GET = "project.error.get";
+	public final static String PROJECT_ERROR_MISSING = "project.error.missing";
+	public final static String PROJECT_ERROR_DELETE = "project.error.delete";
+	public final static String PROJECT_ERROR_CREATE = "project.error.create";
+	public final static String PROJECT_ERROR_UPDATE = "project.error.update";
+	public final static String PROJECT_SUCCESS_DELETE = "project.success.delete";
+	public final static String PROJECT_SUCCESS_CREATE = "project.success.create";
+	public final static String PROJECT_SUCCESS_UPDATE = "project.success.update";
+
+	public static final String VIEW_TASK_LIST = "taskList";
+	
+	public final static String TASK_ERROR_PARAM = "task.error.param";
+	public final static String TASK_ERROR_NOT_FOUND = "task.error.notFound";
+	public final static String TASK_ERROR_GET = "task.error.get";
+	public final static String TASK_ERROR_MISSING = "task.error.missing";
+	public final static String TASK_ERROR_DELETE = "task.error.delete";
+	public final static String TASK_ERROR_CREATE = "task.error.create";
+	public final static String TASK_ERROR_UPDATE = "task.error.update";
+	public final static String TASK_SUCCESS_DELETE = "task.success.delete";
+	public final static String TASK_SUCCESS_CREATE = "task.success.create";
+	public final static String TASK_SUCCESS_UPDATE = "task.success.update";
+
 
 	
 	private PesWebConstants(){};
