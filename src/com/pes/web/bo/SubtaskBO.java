@@ -47,5 +47,9 @@ public interface SubtaskBO {
 	 * @throws PesWebException
 	 */
 	public List<Subtask> listSubtask() throws PesWebException;
+	
+	public List<Subtask> listSubtask(int taskId) throws PesWebException;
+	
+	public void calculateTime(Subtask subtask) throws PesWebException;
 }
 

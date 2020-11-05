@@ -52,5 +52,7 @@ public interface SubtaskDAO {
 	 * @throws PesWebException
 	 */
 	public List<Subtask> listSubtask() throws PesWebException;
+	
+	public List<Subtask> listSubtask(int taskId) throws PesWebException;
 }
 

@@ -1,8 +1,30 @@
 $(document).ready(function(){
 	initDatatableOnList();
+	selectCategoryByType();				
+	$('#select-subtaskTypeId').val($('#subtaskTypeId').val());
+	$('#select-complexityId').val($('#complexityId').val());
+	
+	
 	$('#create-button').removeClass("hidden");
 	$('#update-button').addClass("hidden");
 });
+
+function selectCategoryByType(){
+	var subtaskTypeId = $('#subtaskTypeId').val();
+	$.ajax('../ajax/getSubtaskTypeById.do?subtaskTypeIdStr='+subtaskTypeId,{
+		async : false,
+		success: function(data) {
+			var object = JSON.parse(data)
+			if (object.responseStatus != 'ERROR'){
+				$('#select-subtaskCategoryId').val(object.subtaskType.subtaskTypeCategory.subtaskTypeCategoryId);
+				refreshSubtaskCategoryId();
+			}
+		},
+		error: function(){
+			alert("Error loading the values for the SubtaskType to be updated");
+		}
+	});		
+}
 
 function refreshSubtaskCategoryId(){
 	var selectedValue = $("#select-subtaskCategoryId").val();
@@ -10,9 +32,28 @@ function refreshSubtaskCategoryId(){
 	$("#subtaskTypeId").val(0);
 }
 
+function refreshComplexityId(){
+	var selectedValue = $("#select-complexityId").val();
+	$("#complexityId").val(selectedValue);
+}
+
+
 function refreshSubtaskTypeId(){
 	var selectedValue = $("#select-subtaskTypeId").val();
 	$("#subtaskTypeId").val(selectedValue);
+	
+	$("#calculation-description").empty();
+	$.ajax('../ajax/getSubtaskTypeById.do?subtaskTypeIdStr='+selectedValue,{
+		async: false,
+		success: function(data) {
+			var object = JSON.parse(data);
+			$("#calculation-description").append(object.subtaskType.calculation);
+		},
+		error: function(){
+			alert("Error loading select");
+		}
+	});	
+	
 }
 
 function refreshAutoCalculation(){
@@ -39,7 +80,8 @@ function loadSubtaskTypeSelect(category){
 function initDatatableOnList(){
 	subtaskTableInit=false;
 	cTable=null;
-	$.ajax('../ajax/getSubtaskList.do',{
+	var taskId = $("#taskId").val();
+	$.ajax('../ajax/getSubtaskList.do?taskIdStr='+taskId,{
 		success: function(data) {
 			refreshSubtaskTable(data)
 		},
@@ -70,7 +112,10 @@ function refreshSubtaskTable(data) {
 			columns : [{
 				data : 'subtaskId'
 			},{
-				data : 'subtaskType.subtaskTypeCategory.description',
+				data : null,
+				visible: false
+			},{
+				data : 'subtaskType.subtaskTypeCategory.description'
 			},{
 				data : 'subtaskType.description'
 			},{
@@ -78,15 +123,55 @@ function refreshSubtaskTable(data) {
 			},{
 				data : 'autoCalculation'
 			},{
-				data : 'referenceMode'
+				data : 'complexity.description'
+			},{
+				data : null,
+				visible : false
 			},{
 				data : 'time'
+			},{
+				data : 'calculatedTime'
+			},{
+				data : null,
+				orderable : false,
+				visible : false
 			},{
 				data : null,
 				orderable : false
 			}],
-			columnDefs : [ {
+			columnDefs : [  {
+				targets : 1,
+				className : 'center',
+				orderable : 'false',
+				render : function(data, type, full, meta) {
+					return full.task.name
+				}
+			},{
+				targets : 10,
+				className : 'center',
+				orderable : 'false',
+				render : function(data, type, full, meta) {
+					var viewLink = '<a href="./listSutask.do?taskId='+full.subtaskId+'" title="View Method List"><img border="0" alt="View" src="../images/magnifier.png" width="20" height="20"> </a>'; 
+					return viewLink;
+				}
+			},{
 				targets : 7,
+				className : 'center',
+				orderable : 'false',
+				render : function(data, type, full, meta) {
+					var viewLink = '<a href="javascript:alert('+full.referenceMode+')">View</a>'; 
+					return viewLink;
+				}
+			},{
+				targets : 10,
+				className : 'center',
+				orderable : 'false',
+				render : function(data, type, full, meta) {
+					var viewLink = '<a href="./listSutask.do?taskId='+full.subtaskId+'" title="View Method List"><img border="0" alt="View" src="../images/magnifier.png" width="20" height="20"> </a>'; 
+					return viewLink;
+				}
+			}, {
+				targets : 11,
 				className : 'center',
 				orderable : 'false',
 				render : function(data, type, full, meta) {
@@ -130,13 +215,17 @@ function updateSubtaskLoad(subtaskId){
 				
 				$('#select-subtaskTypeId').val(subtask.subtaskType.subtaskTypeId);
 				refreshSubtaskTypeId()
+				
+				$('#select-complexityId').val(subtask.complexity.complexityId);
+				refreshComplexityId();
 									
 				$('#description').val(subtask.description);		
 				
 				$('#autoCalculation').val(subtask.autoCalculation);		
 				$("#chk-autoCalculation").prop("checked", $("#autoCalculation").val() == 'true' || $("#autoCalculation").val() == 'TRUE');
 				
-				$('#referenceMode').val(subtask.referenceMode);		
+				$('#referenceMode').val(subtask.referenceMode);
+				$('#textarea-refenceModel').val(subtask.referenceMode);			
 				$('#time').val(subtask.time);		
 				$('#create-button').addClass("hidden");
 				$('#update-button').removeClass("hidden");
@@ -197,8 +286,14 @@ function cleanFields(){
 	$('#autoCalculation').val("");		
 	$('#referenceMode').val("");		
 	$('#time').val("");		
-	$('#subtaskType').val("");	
+	$('#subtaskType').val("");
+	$("#textarea-refenceMoodel").val("");
 	$('#select-subtaskCategoryId').val(0);	
+	$('#select-complexityId').val(0);	
 	refreshSubtaskCategoryId();
+}
+
+function updateReferenceModel(){
+	$('#referenceMode').val($("#textarea-refenceModel").val());		
 }
 

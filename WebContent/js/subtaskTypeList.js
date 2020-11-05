@@ -10,6 +10,10 @@ function refreshSubtaskCategoryId(){
 	$("#subtaskCategoryTypeId").val(selectedValue);
 }
 
+function updateCalculation(){
+	$('#calculation').val($('#textarea-calculation').val());
+}
+
 function initDatatableOnList(){
 	subtaskTypeTableInit=false;
 	cTable=null;
@@ -98,6 +102,7 @@ function updateSubtaskTypeLoad(subtaskTypeId){
 				refreshSubtaskCategoryId()
 				$('#description').val(subtaskType.description);
 				$('#calculation').val(subtaskType.calculation);
+				$('#textarea-calculation').val(subtaskType.calculation);
 				$('#reference').val(subtaskType.reference);
 				$('#create-button').addClass("hidden");
 				$('#update-button').removeClass("hidden");
@@ -156,5 +161,6 @@ function cleanFields(){
 	$('#select-subtaskCategoryId').val(0);
 	$('#description').val("");
 	$('#calculation').val("");
+	$('#textarea-calculation').val("");
 	$('#reference').val("");
 }

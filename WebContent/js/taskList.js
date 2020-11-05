@@ -41,7 +41,8 @@ function refreshTaskTable(data) {
 				data : 'taskId'
 			},			
 			{
-				data : null
+				data : null,
+				visible: false
 			},			
 			{
 				data : 'code'
@@ -71,7 +72,7 @@ function refreshTaskTable(data) {
 				className : 'center',
 				orderable : 'false',
 				render : function(data, type, full, meta) {
-					var viewLink = '<a href="./listSutask.do?taskId='+full.taskId+'" title="View Subtask List"><img border="0" alt="View" src="../images/magnifier.png" width="20" height="20"> </a>'; 
+					var viewLink = '<a href="./listSubtask.do?taskId='+full.taskId+'" title="View Subtask List"><img border="0" alt="View" src="../images/magnifier.png" width="20" height="20"> </a>'; 
 					return viewLink;
 				}
 			}, {

@@ -11,8 +11,9 @@ public class TaskForm extends BaseForm {
 	private String code;
 	private int sequence;
 	private String name;
+	//Parent Object
 	private Project project;
-
+	//Validated Object
 	private Task validatedTask;
 	
 	public TaskForm () {

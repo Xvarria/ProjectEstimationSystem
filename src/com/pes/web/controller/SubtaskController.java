@@ -22,13 +22,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pes.web.bo.ComplexityBO;
 import com.pes.web.bo.SubtaskBO;
 import com.pes.web.bo.SubtaskTypeCategoryBO;
+import com.pes.web.bo.TaskBO;
 import com.pes.web.form.SubtaskForm;
+import com.pes.web.model.Complexity;
+import com.pes.web.model.Subtask;
 import com.pes.web.model.SubtaskType;
 import com.pes.web.model.SubtaskTypeCategory;
+import com.pes.web.model.Task;
 import com.pes.web.model.constant.FormAction;
 import com.pes.web.model.exception.PesWebException;
 import com.pes.web.validator.SubtaskValidator;
@@ -40,6 +46,12 @@ public class SubtaskController extends BasicController {
 	
 	@Autowired
 	private SubtaskBO subtaskBO;
+	
+	@Autowired
+	private TaskBO taskBO;
+	
+	@Autowired
+	private ComplexityBO complexityBO;
 
 	@Autowired
 	private SubtaskTypeCategoryBO subtaskTypeCategoryBO;
@@ -48,7 +60,18 @@ public class SubtaskController extends BasicController {
 	private SubtaskValidator subtaskValidator;	
 		
 	@RequestMapping(value="/**/web/listSubtask.do", method = RequestMethod.GET)
-	public ModelAndView listSubtaskGet(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("command") SubtaskForm command) throws Exception {
+	public ModelAndView listSubtaskGet(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("command") SubtaskForm command, @RequestParam("taskId") String taskIdStr) throws Exception {
+		log.info("### START listTask.do ###");
+		int taskId = 0;
+		try {
+			taskId = Integer.parseInt(taskIdStr);
+		}catch (Exception e) {
+			log.error("Project Id not found",e);
+		}
+		Task task = taskBO.getTaskById(taskId);
+		command.setTask(task);
+		command.setTaskId(taskId);
+		command.setTime("0");
 		log.info("### START listSubtask.do ###");
 		ModelAndView listModelView = this.nextModelView(VIEW_SUBTASK_LIST, command, FormAction.LIST);
 		log.info("### END listSubtask.do ###");
@@ -82,7 +105,11 @@ public class SubtaskController extends BasicController {
 			String errorPropertyKey = "";
 			String successPropertyKey = "";
 			FormAction formAction = command.getFormAction();
-			try {				
+			try {
+				if (formAction == FormAction.CREATE||formAction == FormAction.UPDATE){
+					Subtask validated = command.getValidatedSubtask();
+					this.subtaskBO.calculateTime(validated);
+				}
 				//Process insert
 				if (formAction == FormAction.CREATE){
 					logEntryOnError = "Error trying to insert new Subtask Page";
@@ -114,6 +141,7 @@ public class SubtaskController extends BasicController {
 				command.setSubtaskId("");
 				command.setDescription("");
 				command.setSubtaskTypeId(0);
+				command.setComplexityId(0);
 				command.setAutoCalculation("false");
 				command.setReferenceMode("");
 				command.setTime("");
@@ -147,6 +175,18 @@ public class SubtaskController extends BasicController {
 	}
 
 	private void setOptionsOnCommand(ModelAndView formModelView) {
+		List<Complexity> complexityList = new ArrayList<>();
+		try {
+			Complexity selectLabel = new Complexity();
+			selectLabel.setComplexityId(0);
+			selectLabel.setDescription("--- Select ---");
+			
+			complexityList.add(selectLabel);
+			complexityList.addAll(this.complexityBO.listComplexity());
+		} catch (PesWebException e) {
+			complexityList = new ArrayList<>();
+		}
+		
 		List<SubtaskTypeCategory> subtaskypeCategoryList;
 		try {
 			subtaskypeCategoryList = new ArrayList<SubtaskTypeCategory>();
@@ -166,7 +206,8 @@ public class SubtaskController extends BasicController {
 		selectLabel.setSubtaskTypeId(0);
 		selectLabel.setDescription("--- Select ---");
 		subtaskTypeList.add(selectLabel);
-
+		
+		formModelView.addObject("subtaskComplexityList", complexityList);
 		formModelView.addObject("subtaskypeCategoryList", subtaskypeCategoryList);
 		formModelView.addObject("subtaskTypeList", subtaskTypeList);
 	}

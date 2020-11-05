@@ -63,7 +63,10 @@
 					<br><br>
 					</div>
 					<div class="col-md-10 offset-md-1">
-					Calculation:&nbsp; <input id="calculation" name="calculation" value="${command.calculation}"/>
+					Calculation:&nbsp; 
+					<br>
+					<textArea id="textarea-calculation" style="margin-top: 0px;margin-bottom: 0px;height: 116px;width: inherit;" onkeyup="javascript:updateCalculation()" onblur="javascript:updateCalculation()">${command.calculation}</textArea>
+					<input id="calculation" name="calculation" value="${command.calculation}" type="hidden"/>
 					<br><br>
 					</div>
 					<div class="col-md-10 offset-md-1">

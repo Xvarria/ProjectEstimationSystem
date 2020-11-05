@@ -50,6 +50,10 @@ public class AjaxController extends BasicController{
 
 	@Autowired
 	private ProjectBO projectBo;
+
+
+	@Autowired
+	private TaskBO taskBo;
 	
 	final static Logger log = Logger.getLogger(AjaxController.class);
 	
@@ -226,11 +230,11 @@ public class AjaxController extends BasicController{
 	}
 	
 	@RequestMapping("ajax/getSubtaskList")
-	public @ResponseBody String getSubtaskList() throws PesWebException{
+	public @ResponseBody String getSubtaskList(@RequestParam(name="taskIdStr") String taskIdStr) throws PesWebException{
 		log.debug("Ajax method to get Subtask");
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			Collection<Subtask> subtaskList = this.subtaskBo.listSubtask();
+			Collection<Subtask> subtaskList = this.subtaskBo.listSubtask(Integer.parseInt(taskIdStr));
 			return mapper.writeValueAsString(subtaskList);
 		} catch (PesWebException e) {
 			log.error("Error getting the subtask List", e);
@@ -326,9 +330,6 @@ public class AjaxController extends BasicController{
 			throw new PesWebException(e);
 		}
 	}
-
-	@Autowired
-	private TaskBO taskBo;
 	
 	@RequestMapping("ajax/getTaskList")
 	public @ResponseBody String getTaskList(@RequestParam(name="projectIdStr") String projectIdStr) throws PesWebException{
@@ -380,6 +381,4 @@ public class AjaxController extends BasicController{
 			throw new PesWebException(e);
 		}
 	}
-
-	
 }

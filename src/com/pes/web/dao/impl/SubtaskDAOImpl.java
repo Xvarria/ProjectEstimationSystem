@@ -13,7 +13,6 @@ import javax.persistence.criteria.Root;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
-import com.pes.web.controller.AjaxController;
 import com.pes.web.dao.AbstractDAO;
 import com.pes.web.dao.SubtaskDAO;
 import com.pes.web.model.Subtask;
@@ -31,6 +30,10 @@ public class SubtaskDAOImpl extends AbstractDAO implements SubtaskDAO {
 	
 	private static final String QUERY_SELECT = "SELECT c FROM Subtask c WHERE c.subtaskId = :subtaskId";
 	private static final String PARAMETER_NAME_SUBTASK_ID = "subtaskId";
+	
+	private static final String QUERY_SELECT_BY_TASK = "SELECT c FROM Subtask c WHERE c.task.taskId = :taskId";
+	private static final String PARAMETER_NAME_TASK_ID = "taskId";
+	
 
 	/**
 	 * 
@@ -88,5 +91,15 @@ public class SubtaskDAOImpl extends AbstractDAO implements SubtaskDAO {
 			throw new PesWebException(e);
 		}		
 	}
+	
+	/**
+	 * 
+	 * @see com.pes.web.dao.SubtaskDAO{s}listSubtask()
+	 */
+	public List<Subtask> listSubtask(int taskId) throws PesWebException {
+		TypedQuery<Subtask> query = entityManager.createQuery(QUERY_SELECT_BY_TASK, Subtask.class);
+		query.setParameter(PARAMETER_NAME_TASK_ID, taskId);
+		return query.getResultList();
+	}	
 }
 

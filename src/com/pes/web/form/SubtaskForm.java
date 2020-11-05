@@ -2,6 +2,7 @@ package com.pes.web.form;
 
 import com.pes.web.form.base.BaseForm;
 import com.pes.web.model.Subtask;
+import com.pes.web.model.Task;
 
 public class SubtaskForm extends BaseForm {
 
@@ -12,17 +13,25 @@ public class SubtaskForm extends BaseForm {
 	private String referenceMode;
 	private String time;
 	private String subtaskType;
+	private int taskId;
+	private int complexityId;
 	
+	//Parent Object
+	private Task task;
+	//Validated Object
 	private Subtask validatedSubtask;
 	
 	public SubtaskForm () {
 		this.subtaskId = "";	
-		this.subtaskTypeId = 0;	
+		this.subtaskTypeId = 0;
+		this.complexityId = 0;	
 		this.description = "";	
 		this.autoCalculation = "";	
 		this.referenceMode = "";	
 		this.time = "";	
-		this.subtaskType = "";	
+		this.subtaskType = "";
+		this.taskId = 0;
+		this.task = new Task();
 	}
 
 	/**
@@ -136,5 +145,50 @@ public class SubtaskForm extends BaseForm {
 	public void setValidatedSubtask(Subtask validatedSubtask) {
 		this.validatedSubtask = validatedSubtask;
 	}
+
+	/**
+	 * @return the task
+	 */
+	public Task getTask() {
+		return task;
+	}
+
+	/**
+	 * @param task the task to set
+	 */
+	public void setTask(Task task) {
+		this.task = task;
+	}
+
+	/**
+	 * @return the taskId
+	 */
+	public int getTaskId() {
+		return taskId;
+	}
+
+	/**
+	 * @param taskId the taskId to set
+	 */
+	public void setTaskId(int taskId) {
+		this.taskId = taskId;
+	}
+
+	/**
+	 * @return the complexityId
+	 */
+	public int getComplexityId() {
+		return complexityId;
+	}
+
+	/**
+	 * @param complexityId the complexityId to set
+	 */
+	public void setComplexityId(int complexityId) {
+		this.complexityId = complexityId;
+	}
+	
+	
+	
 }
 

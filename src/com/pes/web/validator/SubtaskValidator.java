@@ -6,11 +6,14 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import com.pes.web.bo.ComplexityBO;
 import com.pes.web.bo.SubtaskBO;
 import com.pes.web.bo.SubtaskTypeBO;
 import com.pes.web.form.SubtaskForm;
+import com.pes.web.model.Complexity;
 import com.pes.web.model.Subtask;
 import com.pes.web.model.SubtaskType;
+import com.pes.web.model.Task;
 import com.pes.web.model.constant.FormAction;
 
 @Component
@@ -23,6 +26,9 @@ public class SubtaskValidator implements Validator {
 	
 	@Autowired
 	private SubtaskBO subtaskBO;
+	
+	@Autowired
+	private ComplexityBO complexityBO;
 	
 	@Autowired
 	private SubtaskTypeBO subtaskTypeBO;
@@ -54,6 +60,14 @@ public class SubtaskValidator implements Validator {
 			if (formAction == FormAction.CREATE || formAction == FormAction.UPDATE){
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "subtask.form.error.description-empty");
 				subtask.setDescription(command.getDescription());
+				
+				try {
+					Complexity complexity = this.complexityBO.getComplexityById(command.getComplexityId());
+					subtask.setComplexity(complexity);
+				} catch (Exception e) {
+					errors.rejectValue("complexityId", "subtask.form.error.invalid-type");
+				}
+				
 				try {
 					SubtaskType subtaskType = this.subtaskTypeBO.getSubtaskTypeById(command.getSubtaskTypeId());
 					subtask.setSubtaskType(subtaskType);
@@ -69,6 +83,9 @@ public class SubtaskValidator implements Validator {
 				}				
 				subtask.setAutoCalculation("TRUE".equalsIgnoreCase(command.getAutoCalculation()));
 				subtask.setReferenceMode(command.getReferenceMode());
+
+				Task task = command.getTask();
+				subtask.setTask(task);				
 			}				
 			command.setValidatedSubtask(subtask);
 	

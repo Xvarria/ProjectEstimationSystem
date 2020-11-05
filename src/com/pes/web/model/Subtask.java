@@ -9,23 +9,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 @Entity
 @Table(name = "subtask")
 public class Subtask {
 
 	private int subtaskId;
 	private int subtaskTypeId;
+	private int complexityId;
 	private int taskId;
 	private String description;
 	private boolean autoCalculation;
 	private String referenceMode;
 	private float time;
+	
 	private SubtaskType subtaskType;
+	private Complexity complexity;
+	
+	private float calculatedTime;
 
-	@JsonBackReference
 	private Task task;
+	
 	/**
 	 * @return the subtaskId
 	 */
@@ -135,6 +138,37 @@ public class Subtask {
 	}
 	
 	/**
+	 * @return the complexityId
+	 */
+	@Column(name = "COMPLEXITY_ID", updatable = false, insertable = false)
+	public int getComplexityId() {
+		return complexityId;
+	}
+
+	/**
+	 * @param complexityId the complexityId to set
+	 */
+	public void setComplexityId(int complexityId) {
+		this.complexityId = complexityId;
+	}
+
+	/**
+	 * @return the complexity
+	 */
+    @ManyToOne
+    @JoinColumn(name = "COMPLEXITY_ID")	
+	public Complexity getComplexity() {
+		return complexity;
+	}
+
+	/**
+	 * @param complexity the complexity to set
+	 */
+	public void setComplexity(Complexity complexity) {
+		this.complexity = complexity;
+	}
+
+	/**
 	 * @return the taskId
 	 */
 	@Column(name="TASK_ID", updatable = false, insertable = false)
@@ -147,6 +181,22 @@ public class Subtask {
 	 */
 	public void setTaskId(int taskId) {
 		this.taskId = taskId;
+	}
+
+		
+	/**
+	 * @return the calculatedTime
+	 */
+	@Column(name="CALCULATED_TIME")
+	public float getCalculatedTime() {
+		return calculatedTime;
+	}
+
+	/**
+	 * @param calculatedTime the calculatedTime to set
+	 */
+	public void setCalculatedTime(float calculatedTime) {
+		this.calculatedTime = calculatedTime;
 	}
 
 	/**
@@ -170,11 +220,16 @@ public class Subtask {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (autoCalculation ? 1231 : 1237);
+		result = prime * result + Float.floatToIntBits(calculatedTime);
+		result = prime * result + ((complexity == null) ? 0 : complexity.hashCode());
+		result = prime * result + complexityId;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((referenceMode == null) ? 0 : referenceMode.hashCode());
 		result = prime * result + subtaskId;
 		result = prime * result + ((subtaskType == null) ? 0 : subtaskType.hashCode());
 		result = prime * result + subtaskTypeId;
+		result = prime * result + ((task == null) ? 0 : task.hashCode());
+		result = prime * result + taskId;
 		result = prime * result + Float.floatToIntBits(time);
 		return result;
 	}
@@ -192,6 +247,19 @@ public class Subtask {
 		}
 		Subtask other = (Subtask) obj;
 		if (autoCalculation != other.autoCalculation) {
+			return false;
+		}
+		if (Float.floatToIntBits(calculatedTime) != Float.floatToIntBits(other.calculatedTime)) {
+			return false;
+		}
+		if (complexity == null) {
+			if (other.complexity != null) {
+				return false;
+			}
+		} else if (!complexity.equals(other.complexity)) {
+			return false;
+		}
+		if (complexityId != other.complexityId) {
 			return false;
 		}
 		if (description == null) {
@@ -221,6 +289,16 @@ public class Subtask {
 		if (subtaskTypeId != other.subtaskTypeId) {
 			return false;
 		}
+		if (task == null) {
+			if (other.task != null) {
+				return false;
+			}
+		} else if (!task.equals(other.task)) {
+			return false;
+		}
+		if (taskId != other.taskId) {
+			return false;
+		}
 		if (Float.floatToIntBits(time) != Float.floatToIntBits(other.time)) {
 			return false;
 		}
@@ -234,6 +312,10 @@ public class Subtask {
 		builder.append(subtaskId);
 		builder.append(", subtaskTypeId=");
 		builder.append(subtaskTypeId);
+		builder.append(", complexityId=");
+		builder.append(complexityId);
+		builder.append(", taskId=");
+		builder.append(taskId);
 		builder.append(", description=");
 		builder.append(description);
 		builder.append(", autoCalculation=");
@@ -244,6 +326,12 @@ public class Subtask {
 		builder.append(time);
 		builder.append(", subtaskType=");
 		builder.append(subtaskType);
+		builder.append(", complexity=");
+		builder.append(complexity);
+		builder.append(", calculatedTime=");
+		builder.append(calculatedTime);
+		builder.append(", task=");
+		builder.append(task);
 		builder.append("]");
 		return builder.toString();
 	}
